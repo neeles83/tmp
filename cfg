@@ -1,0 +1,80 @@
+#
+#How to split the file:
+#csplit --digits=2  --quiet --prefix=outfile infile "/-|/+1" "{*}" --elide-empty-files
+#       --digits will number the output files with 2 numbers
+#       --quiet  will not show any output.
+#       --prefix will append outfile to ech output file.
+#       <infile> replace this for the file you want to split.
+#      "regex were to split the file"
+#      --elide-empty-files removes empty left over file
+#
+#
+-|
+# Official repositories
+sudo pacman -S --noconfirm --needed \ 
+   android-tools ansible arandr baobab bmon cheese compton docker file-roller firefox      \
+   flake8 flashplugin gparted hplip htop jre9-openjdk libvirt lm_sensors lxappearance      \
+   mtr nftables nmap numix-gtk-theme openconnect openvpn powertop putty ranger redshift    \
+   remmina screen screenfetch sslscan syncthing tcpdump thunar thunar-volman thunderbird   \
+   tmux traceroute transmission-qt ttf-roboto vagrant virt-manager virtualbox vlc whois    \
+   wireshark-cli wireshark-common wireshark-qt xfce4-notes-plugin
+-|
+# AUR
+sudo yay -S --noconfirm --noedit \
+   arping-th davmail displaylink dropbox eve-ng-integration font-manager foxitreader       \
+   gnome-ssh-askpass2 gtk-theme-arc-git hardcode-fixer-git icaclient keepassxc-git         \
+   neofetch numix-circle-icon-theme-git numix-icon-theme-git ostinato pkgcacheclean        \
+   powerline-fonts-git rar remmina-plugin-teamviewer rxvt-unicode-patched slack-desktop    \
+   solaar spotify teamviewer ttf-fantasque-sans-mono ttf-font-awesome-4 universal-ctags-git
+-|
+sudo usermod -aG wireshark,vboxusers,libvirtd,docker $USER
+-|
+# vim-plug
+curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+-|
+# Set up cfg alias and clone the repo
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+git clone --bare https://github.com/siemhermans/cfg $HOME/.cfg
+
+# Backup pre-existing configuration files
+mkdir -p .config-backup && \
+config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+xargs -I{} mv {} .config-backup/{}
+
+# Checkout HEAD and hande UntrackedFiles
+cfg checkout
+cfg config --local status.showUntrackedFiles no
+-|
+# Install Python related dependencies for Neovim:
+pip install neovim flake8 pylint
+
+# Pull down all plugins for Neovim
+nvim +PlugInstall +UpdateRemotePlugins
+
+# Zsh
+mkdir $XDG_CONFIG_HOME/zsh/plugins/    # Create local plugin repository
+zsh && zplug install
+-|
+sudo systemctl enable bluetooth.service
+sudo systemctl enable dhcpd.service
+sudo systemctl enable docker.service
+sudo systemctl enable libvirtd.service
+sudo systemctl enable NetworkManager.service
+sudo systemctl enable nftables.service
+sudo systemctl enable org.cups.cupsd.service
+sudo systemctl enable sshd.service
+sudo systemctl enable tlp.service
+sudo systemctl enable tlp-sleep.service
+
+# Mask these services due to TLP interference
+sudo systemctl mask systemd-rfkill.service
+sudo systemctl mask systemd-rfkill.socket
+-|
+sudo sed -i '/HandlePowerKey/{s/poweroff/ignore/g;s/#//g}' /etc/systemd/logind.conf
+-|
+alsamixer -c0
+-|
+sed -i '/GRUB_CMDLINE_LINUX/{s/\"\"/\"net\.ifnames\=0\"/g;s/#//g}' /etc/default/grub
+-|
+echo -e "Use of this system constitutes consent to monitoring. Monitoring may be\nconducted for the protection against improper or unauthorized use or access.\n\n" | sudo tee /etc/issue
