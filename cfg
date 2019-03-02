@@ -8,6 +8,8 @@
 #      "regex were to split the file"
 #      --elide-empty-files removes empty left over file
 #
+###After splitting cut the \ and LF (Line Feed) or CR (Carriage Retrun)
+#sed ':a;N;$!ba;s/\n//g' outfile0x | sed 's/\\//g' 
 #
 -|
 # Official repositories
