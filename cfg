@@ -11,6 +11,23 @@
 #
 -|
 # Official repositories
+sudo pacman -S --noconfirm --needed \  
+   acpi acpid alsa-firmware alsa-plugins alsa-utils blueberry bluez-firmware bluez-utils    \
+   bridge-utils cifs-utils cmake cups cups-pdf curl dhclient dialog dkms dunst etckeeper    \
+   feh ffmpeg ghostscript git gksu gnome-keyring gsfonts gst-plugins-bad gst-plugins-base   \
+   gst-plugins-good gst-plugins-ugly gstreamer gvfs gvfs-mtp gvfs-nfs gvfs-smb i3status     \
+   imagemagick iperf iperf3 libcups linux-headers lsb-release mousetweaks neovim net-tools  \
+   network-manager-applet networkmanager numlockx openssh openssl p7zip pavucontrol polkit  \
+   pulseaudio pulseaudio-alsa python python2 python2-pip python-pip rofi ruby sane scrot    \
+   simple-scan sshpass system-config-printer tlp tlp-rdw tree udev udisks2 unrar unzip wget \
+   x11-ssh-askpass xautolock xclip xdg-user-dirs xf86-input-libinput xf86-video-intel       \
+   xorg-apps xorg-server xorg-twm xorg-xinit xss-lock xterm zip zsh 
+-|
+# AUR
+sudo yay -S --noconfirm --noedit \
+   i3blocks i3-gaps-next-git i3lock-color-git j4-dmenu-desktop rxvt-unicode-patched
+-|
+# Official repositories
 sudo pacman -S --noconfirm --needed \ 
    android-tools ansible arandr baobab bmon cheese compton docker file-roller firefox      \
    flake8 flashplugin gparted hplip htop jre9-openjdk libvirt lm_sensors lxappearance      \
